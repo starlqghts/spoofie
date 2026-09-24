@@ -68,12 +68,12 @@ Because this tool communicates directly with iOS developer testing sockets, it r
 1. Download and install the [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/).
 2. During installation, check the box for **"Desktop development with C++"**.
 3. Complete the installation and restart your terminal:
-   - cd spoofie  //Restart your PowerShell terminal
-   - Set-ExecutionPolicy Unrestricted -Scope Process; .\venv\Scripts\Activate.ps1  //Activate your virtual environment again
-   - pip install -r requirements.txt  //Re-run the installation command (now that the compiler is installed, pylzss and lzfse will build successfully this time)
-   - python app.py  //Launch your app server
+   - cd spoofie
+   - Set-ExecutionPolicy Unrestricted -Scope Process;
+   - pip install -r requirements.txt
+   - python app.py
   
-### IF you are using Python 3.14 (cp314)
+### If you are using Python 3.14 (cp314)
    - deactivate
    - Remove-Item -Recurse -Force venv
    - py -3.12 -m venv venv
