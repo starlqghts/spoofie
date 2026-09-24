@@ -6,7 +6,7 @@ from pydantic import BaseModel
 import folium
 
 from pymobiledevice3.lockdown import create_using_usbmux
-from pymobiledevice3.services.dvt.dvt_secure_socket_proxy import DvtSecureSocketProxy
+from pymobiledevice3.services.dvt.dvt_secure_socket_proxy import DvtSecureSocketProxyService
 from pymobiledevice3.services.dvt.instruments.location_simulation import LocationSimulation
 
 app = FastAPI()
@@ -19,7 +19,7 @@ async def apply_gps_simulation(lat: float, lon: float):
     """Asynchronously pushes coordinates to the tethered iOS device."""
     try:
         async with create_using_usbmux() as lockdown:
-            async with DvtSecureSocketProxy(lockdown) as dvt:
+            async with DvtSecureSocketProxyService(lockdown) as dvt:
                 loc_sim = LocationSimulation(dvt)
                 loc_sim.set(lat, lon)
                 print(f"[SUCCESS] Location updated to: Lat {lat}, Lon {lon}")
