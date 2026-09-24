@@ -1,6 +1,6 @@
 # spoofie
 
-# iOS Location Spoofer with Visual Map Interface
+## iOS Location Spoofer with Visual Map Interface
 
 A lightweight, Python-based desktop application that lets you spoof your iPhone's GPS location using an interactive web map interface. Powered by `pymobiledevice3` and `FastAPI` / `Folium`.
 
