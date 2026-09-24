@@ -64,7 +64,7 @@ pydantic
 ## Prerequisites for Windows Users
 Because this tool communicates directly with iOS developer testing sockets, it relies on system-level libraries that require a C compiler on Windows. 
 
-If you encounter a `Microsoft Visual C++ 14.0 or greater is required` error during `pip install`:
+### If you encounter a `Microsoft Visual C++ 14.0 or greater is required` error during `pip install`:
 1. Download and install the [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/).
 2. During installation, check the box for **"Desktop development with C++"**.
 3. Complete the installation and restart your terminal:
@@ -73,7 +73,7 @@ If you encounter a `Microsoft Visual C++ 14.0 or greater is required` error duri
    - pip install -r requirements.txt  //Re-run the installation command (now that the compiler is installed, pylzss and lzfse will build successfully this time)
    - python app.py  //Launch your app server
   
-# IF you are using Python 3.14 (cp314)
+### IF you are using Python 3.14 (cp314)
    - deactivate
    - Remove-Item -Recurse -Force venv
    - py -3.12 -m venv venv
