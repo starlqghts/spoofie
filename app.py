@@ -5,7 +5,7 @@ from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 import folium
 
-from pymobiledevice3.lockdown import create_living_lockdown_client
+from pymobiledevice3.lockdown import create_using_usbmux
 from pymobiledevice3.services.dvt.dvt_secure_socket_proxy import DvtSecureSocketProxy
 from pymobiledevice3.services.dvt.instruments.location_simulation import LocationSimulation
 
@@ -18,7 +18,7 @@ class Coordinates(BaseModel):
 async def apply_gps_simulation(lat: float, lon: float):
     """Asynchronously pushes coordinates to the tethered iOS device."""
     try:
-        async with create_living_lockdown_client() as lockdown:
+        async with create_using_usbmux() as lockdown:
             async with DvtSecureSocketProxy(lockdown) as dvt:
                 loc_sim = LocationSimulation(dvt)
                 loc_sim.set(lat, lon)
@@ -29,13 +29,10 @@ async def apply_gps_simulation(lat: float, lon: float):
 @app.get("/", response_class=HTMLResponse)
 async def index():
     """Generates an interactive map interface where clicking a point sets the location."""
-    # Default center map view (e.g., New York / customizable)
     m = folium.Map(location=[40.7128, -74.0060], zoom_start=13)
     
-    # Add a custom JavaScript click handler to send coordinates back to the server
     click_script = """
     <script>
-        // Listen for map clicks to trigger location updates automatically
         document.addEventListener("DOMContentLoaded", function() {
             let mapObject = window.map; 
             if(mapObject) {
