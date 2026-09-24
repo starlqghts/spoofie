@@ -58,3 +58,12 @@ pydantic
 4. Use your custom tool:
    - Open a web browser on your computer and go to: http://127.0.0.1:8000
    - An interactive map will load. Click on any street or building to instantly spoof your iPhone's global location!
+
+
+## Prerequisites for Windows Users
+Because this tool communicates directly with iOS developer testing sockets, it relies on system-level libraries that require a C compiler on Windows. 
+
+If you encounter a `Microsoft Visual C++ 14.0 or greater is required` error during `pip install`:
+1. Download and install the [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/).
+2. During installation, check the box for **"Desktop development with C++"**.
+3. Complete the installation and restart your terminal.
