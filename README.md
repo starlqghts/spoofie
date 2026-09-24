@@ -60,10 +60,15 @@ pydantic
    - An interactive map will load. Click on any street or building to instantly spoof your iPhone's global location!
 
 
+
 ## Prerequisites for Windows Users
 Because this tool communicates directly with iOS developer testing sockets, it relies on system-level libraries that require a C compiler on Windows. 
 
 If you encounter a `Microsoft Visual C++ 14.0 or greater is required` error during `pip install`:
 1. Download and install the [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/).
 2. During installation, check the box for **"Desktop development with C++"**.
-3. Complete the installation and restart your terminal.
+3. Complete the installation and restart your terminal:
+   cd spoofie  //Restart your PowerShell terminal
+   Set-ExecutionPolicy Unrestricted -Scope Process; .\venv\Scripts\Activate.ps1  //Activate your virtual environment again
+   pip install -r requirements.txt  //Re-run the installation command (now that the compiler is installed, pylzss and lzfse will build successfully this time)
+   python app.py  //Launch your app server
