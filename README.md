@@ -32,7 +32,29 @@ fastapi
 uvicorn
 folium
 pydantic
+```
 
 ---
 
-k
+## Step-by-Step Installation & Execution
+
+1. **Install dependencies:**  
+   Open your command line inside your project directory and run:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. Connect your iPhone:
+   - Plug your iPhone into your computer using a USB cable.
+   - Unlock your phone and tap "Trust" when prompted.
+   - Ensure Developer Mode is turned on (Settings > Privacy & Security > Developer Mode).
+
+
+3. Run the local app server:
+   ```bash
+   python app.py
+   ```
+
+4. Use your custom tool:
+   - Open a web browser on your computer and go to: http://127.0.0.1:8000
+   - An interactive map will load. Click on any street or building to instantly spoof your iPhone's global location!
