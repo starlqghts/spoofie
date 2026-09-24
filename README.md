@@ -32,3 +32,7 @@ fastapi
 uvicorn
 folium
 pydantic
+
+---
+
+k
