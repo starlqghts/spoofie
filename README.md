@@ -1,42 +1,34 @@
 # 🗺️ Spoofie: iOS Location Spoofer with Visual Map Interface
 
-A lightweight, Python-based desktop application that lets you spoof your iPhone's GPS location using an interactive web map interface.
+A lightweight, Python-based desktop application that lets you spoof your iPhone's GPS location using an interactive web map interface. Powered by `pymobiledevice3` and `FastAPI` / `Folium`.
 
-Built with `pymobiledevice3`, `FastAPI`, and `Folium`.
-
----
-
-## ✨ Features
-
-* **🗺️ Interactive Web Map:** Click anywhere on a Leaflet map to select a custom latitude and longitude.
-* **🔌 USB Tethered Sync:** Communicates with a connected iPhone over USB.
-* **⚡ Real-Time Updates:** Quickly apply new coordinates without restarting the application.
-* **🌐 Local Web Interface:** Simple browser-based interface running locally on your computer.
+## Features
+* 🗺️ **Interactive Web Map:** Click anywhere on a Leaflet map to select a custom latitude and longitude.
+* 🔌 **USB Tethered Sync:** Pushes mock GPS coordinates directly to your connected iPhone via Apple's DVT developer protocols.
+* ⚡ **Real-Time Update:** Instant system-wide location override for Find My, Apple Maps, and other services.
 
 ---
 
-## 📋 Prerequisites
+## Prerequisites
 
-Before getting started, make sure you have:
-* A Windows PC or Mac.
-* Python 3.8+ installed.
-* An iPhone with Developer Mode enabled.
-* A USB cable capable of data transfer.
-
-### Enable Developer Mode
-On your iPhone, go to:
-> `Settings > Privacy & Security > Developer Mode`
-
-Enable Developer Mode and restart your iPhone if prompted.
+1. **A Host Computer:** A Windows PC (with iTunes/Apple Devices installed) or a Mac.
+2. **Python 3.8+** installed on your computer.
+3. **An iPhone** running iOS with **Developer Mode** enabled (`Settings > Privacy & Security > Developer Mode`).
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
-Create a folder named `ios-location-spoofer`:
+Create a folder on your computer named `ios-location-spoofer` and add two files inside it:
+1. `requirements.txt`
+2. `app.py`
 
+---
+
+### 1. `requirements.txt`
 ```text
-ios-location-spoofer/
-├── app.py
-├── requirements.txt
-└── README.md
+pymobiledevice3
+fastapi
+uvicorn
+folium
+pydantic
