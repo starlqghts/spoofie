@@ -68,7 +68,7 @@ If you encounter a `Microsoft Visual C++ 14.0 or greater is required` error duri
 1. Download and install the [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/).
 2. During installation, check the box for **"Desktop development with C++"**.
 3. Complete the installation and restart your terminal:
-   cd spoofie  //Restart your PowerShell terminal
-   Set-ExecutionPolicy Unrestricted -Scope Process; .\venv\Scripts\Activate.ps1  //Activate your virtual environment again
-   pip install -r requirements.txt  //Re-run the installation command (now that the compiler is installed, pylzss and lzfse will build successfully this time)
-   python app.py  //Launch your app server
+   a) cd spoofie  //Restart your PowerShell terminal
+   b) Set-ExecutionPolicy Unrestricted -Scope Process; .\venv\Scripts\Activate.ps1  //Activate your virtual environment again
+   c) pip install -r requirements.txt  //Re-run the installation command (now that the compiler is installed, pylzss and lzfse will build successfully this time)
+   d) python app.py  //Launch your app server
