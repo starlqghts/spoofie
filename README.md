@@ -72,3 +72,11 @@ If you encounter a `Microsoft Visual C++ 14.0 or greater is required` error duri
    - Set-ExecutionPolicy Unrestricted -Scope Process; .\venv\Scripts\Activate.ps1  //Activate your virtual environment again
    - pip install -r requirements.txt  //Re-run the installation command (now that the compiler is installed, pylzss and lzfse will build successfully this time)
    - python app.py  //Launch your app server
+  
+# IF you are using Python 3.14 (cp314)
+   - deactivate
+   - Remove-Item -Recurse -Force venv
+   - py -3.12 -m venv venv
+   - Set-ExecutionPolicy Unrestricted -Scope Process; .\venv\Scripts\Activate.ps1
+   - pip install -r requirements.txt
+   - python app.py
