@@ -37,7 +37,6 @@ async def index():
     <script>
         // Listen for map clicks to trigger location updates automatically
         document.addEventListener("DOMContentLoaded", function() {
-            // Leaflet map object injection hack for custom UI binding
             let mapObject = window.map; 
             if(mapObject) {
                 mapObject.on('click', function(e) {
@@ -59,7 +58,6 @@ async def index():
     </script>
     """
     
-    # Render map to HTML string
     map_html = m._repr_html_()
     
     page_content = f"""
