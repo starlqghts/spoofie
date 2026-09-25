@@ -15,7 +15,6 @@ class Coordinates(BaseModel):
 
 async def apply_gps_simulation(lat: float, lon: float):
     try:
-        # Utilizing standard pymobiledevice3 command interface invocation for reliability across iOS versions
         proc = await asyncio.create_subprocess_exec(
             "python", "-m", "pymobiledevice3", "developer", "dvt", "simulate-location", "set", "--", str(lat), str(lon),
             stdout=asyncio.subprocess.PIPE,
@@ -32,26 +31,34 @@ async def apply_gps_simulation(lat: float, lon: float):
 @app.get("/", response_class=HTMLResponse)
 async def index():
     m = folium.Map(location=[40.7128, -74.0060], zoom_start=13)
+    
+    # Add native Folium LatLngPopup which handles clicking coordinates cleanly
+    m.add_child(folium.LatLngPopup())
+    
+    # Custom script to intercept the popup link and send it to our backend endpoint
     click_script = """
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let mapObject = window.map; 
-            if(mapObject) {
-                mapObject.on('click', function(e) {
-                    let lat = e.latlng.lat;
-                    let lon = e.latlng.lng;
+        document.addEventListener("click", function(e) {
+            if (e.target && e.target.innerHTML.includes("Lat:")) {
+                // Leaflet default popup format contains coordinates text
+                let text = e.target.innerHTML;
+                // Parse out latitude and longitude strings
+                let matches = text.match(/-?\\d+\\.\\d+/g);
+                if (matches && matches.length >= 2) {
+                    let lat = parseFloat(matches[0]);
+                    let lon = parseFloat(matches[1]);
                     fetch('/set-location', {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({lat: lat, lon: lon})
-                    }).then(res => res.json()).then(data => alert('Location spoofed to: ' + lat.toFixed(4) + ', ' + lon.toFixed(4)));
-                });
+                    }).then(res => res.json()).then(data => alert('Teleported iPhone to: ' + lat + ', ' + lon));
+                }
             }
         });
     </script>
     """
     map_html = m._repr_html_()
-    return HTMLResponse(content=f"<html><body><h2>iOS Local GPS Spoofer</h2><p>Click anywhere on the map to spoof your location.</p>{map_html}{click_script}</body></html>")
+    return HTMLResponse(content=f"<html><body><h2>iOS Local GPS Spoofer</h2><p>Click anywhere on the map, then click the popup link that appears!</p>{map_html}{click_script}</body></html>")
 
 @app.post("/set-location")
 async def update_location(coords: Coordinates, background_tasks: BackgroundTasks):
