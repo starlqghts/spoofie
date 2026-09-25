@@ -6,8 +6,6 @@ from pydantic import BaseModel
 import folium
 
 from pymobiledevice3.lockdown import create_using_usbmux
-from pymobiledevice3.services.dvt.dvt_secure_socket_proxy import DvtSecureSocketProxyService
-from pymobiledevice3.services.dvt.instruments.location_simulation import LocationSimulation
 
 app = FastAPI()
 
@@ -16,21 +14,24 @@ class Coordinates(BaseModel):
     lon: float
 
 async def apply_gps_simulation(lat: float, lon: float):
-    """Asynchronously pushes coordinates to the tethered iOS device."""
     try:
-        async with create_using_usbmux() as lockdown:
-            async with DvtSecureSocketProxyService(lockdown) as dvt:
-                loc_sim = LocationSimulation(dvt)
-                loc_sim.set(lat, lon)
-                print(f"[SUCCESS] Location updated to: Lat {lat}, Lon {lon}")
+        # Utilizing standard pymobiledevice3 command interface invocation for reliability across iOS versions
+        proc = await asyncio.create_subprocess_exec(
+            "python", "-m", "pymobiledevice3", "developer", "dvt", "simulate-location", "set", "--", str(lat), str(lon),
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE
+        )
+        stdout, stderr = await proc.communicate()
+        if proc.returncode == 0:
+            print(f"[SUCCESS] Location updated to: Lat {lat}, Lon {lon}")
+        else:
+            print(f"[ERROR] Failed to update location: {stderr.decode().strip()}")
     except Exception as e:
-        print(f"[ERROR] Failed to update location. Ensure phone is unlocked, trusted, and Developer Mode is active. Details: {e}")
+        print(f"[ERROR] Exception during location update: {e}")
 
 @app.get("/", response_class=HTMLResponse)
 async def index():
-    """Generates an interactive map interface where clicking a point sets the location."""
     m = folium.Map(location=[40.7128, -74.0060], zoom_start=13)
-    
     click_script = """
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -39,45 +40,18 @@ async def index():
                 mapObject.on('click', function(e) {
                     let lat = e.latlng.lat;
                     let lon = e.latlng.lng;
-                    
                     fetch('/set-location', {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({lat: lat, lon: lon})
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        alert('Location spoofed to: ' + lat.toFixed(4) + ', ' + lon.toFixed(4));
-                    });
+                    }).then(res => res.json()).then(data => alert('Location spoofed to: ' + lat.toFixed(4) + ', ' + lon.toFixed(4)));
                 });
             }
         });
     </script>
     """
-    
     map_html = m._repr_html_()
-    
-    page_content = f"""
-    <html>
-        <head>
-            <title>iOS Location Spoofer</title>
-            <style>
-                body {{ font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f4f4f9; }}
-                h2 {{ color: #333; }}
-                .container {{ max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }}
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <h2>iOS Local GPS Spoofer</h2>
-                <p>Plug in your iPhone, trust this computer, enable Developer Mode, and <b>click anywhere on the map below</b> to teleport your device.</p>
-                {map_html}
-            </div>
-            {click_script}
-        </body>
-    </html>
-    """
-    return HTMLResponse(content=page_content)
+    return HTMLResponse(content=f"<html><body><h2>iOS Local GPS Spoofer</h2><p>Click anywhere on the map to spoof your location.</p>{map_html}{click_script}</body></html>")
 
 @app.post("/set-location")
 async def update_location(coords: Coordinates, background_tasks: BackgroundTasks):
