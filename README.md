@@ -19,11 +19,11 @@ A lightweight, Python-based desktop application that lets you spoof your iPhone'
       - python -m pymobiledevice3 amfi enable-developer-mode
       - Next Steps: Restart your iPhone when prompted, unlock it with your passcode, and tap "Turn On" on the system prompt that appears on your phone screen.
          - If it says: failed to connect to usbmuxd socket
-            - Install iTunes from the Microsoft Store (this installs the necessary Apple device drivers for Windows).
-            - Open the Windows Start Menu, type Services, and open the app.
-            - Find Apple Mobile Device Service, right-click it, and click Start (or Restart).
-            - Unplug your iPhone, plug it back in, unlock it, and tap Trust.
-            - Run your command again in PowerShell: 
+              1. Install iTunes from the Microsoft Store (this installs the necessary Apple device drivers for Windows).
+              2. Open the Windows Start Menu, type Services, and open the app.
+              3. Find Apple Mobile Device Service, right-click it, and click Start (or Restart).
+              4. Unplug your iPhone, plug it back in, unlock it, and tap Trust.
+              5. Run your command again in PowerShell
 ---
 
 ## Project Structure
